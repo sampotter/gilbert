@@ -21,14 +21,14 @@ def gilbert2d(x, y, ax, ay, bx, by):
     if h == 1:
         # trivial row fill
         for i in range(0, w):
-            print x, y
+            yield x, y
             (x, y) = (x + dax, y + day)
         return
 
     if w == 1:
         # trivial column fill
         for i in range(0, h):
-            print x, y
+            yield x, y
             (x, y) = (x + dbx, y + dby)
         return
 
@@ -44,8 +44,8 @@ def gilbert2d(x, y, ax, ay, bx, by):
             (ax2, ay2) = (ax2 + dax, ay2 + day)
 
         # long case: split in two parts only
-        gilbert2d(x, y, ax2, ay2, bx, by)
-        gilbert2d(x+ax2, y+ay2, ax-ax2, ay-ay2, bx, by)
+        yield from gilbert2d(x, y, ax2, ay2, bx, by)
+        yield from gilbert2d(x+ax2, y+ay2, ax-ax2, ay-ay2, bx, by)
 
     else:
         if (h2 % 2) and (h > 2):
@@ -53,10 +53,10 @@ def gilbert2d(x, y, ax, ay, bx, by):
             (bx2, by2) = (bx2 + dbx, by2 + dby)
 
         # standard case: one step up, one long horizontal, one step down
-        gilbert2d(x, y, bx2, by2, ax2, ay2)
-        gilbert2d(x+bx2, y+by2, ax, ay, bx-bx2, by-by2)
-        gilbert2d(x+(ax-dax)+(bx2-dbx), y+(ay-day)+(by2-dby),
-                 -bx2, -by2, -(ax-ax2), -(ay-ay2))
+        yield from gilbert2d(x, y, bx2, by2, ax2, ay2)
+        yield from gilbert2d(x+bx2, y+by2, ax, ay, bx-bx2, by-by2)
+        yield from gilbert2d(x+(ax-dax)+(bx2-dbx), y+(ay-day)+(by2-dby),
+                             -bx2, -by2, -(ax-ax2), -(ay-ay2))
 
 
 def main():
