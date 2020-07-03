@@ -14,42 +14,42 @@ def gilbert2d(x, y, ax, ay, bx, by):
     w = abs(ax + ay)
     h = abs(bx + by)
 
-    (dax, day) = (_sgn(ax), _sgn(ay)) # unit major direction
-    (dbx, dby) = (_sgn(bx), _sgn(by)) # unit orthogonal direction
+    dax, day = _sgn(ax), _sgn(ay) # unit major direction
+    dbx, dby = _sgn(bx), _sgn(by) # unit orthogonal direction
 
     if h == 1:
         # trivial row fill
         for i in range(0, w):
             yield x, y
-            (x, y) = (x + dax, y + day)
+            x, y = x + dax, y + day
         return
 
     if w == 1:
         # trivial column fill
         for i in range(0, h):
             yield x, y
-            (x, y) = (x + dbx, y + dby)
+            x, y = x + dbx, y + dby
         return
 
-    (ax2, ay2) = (ax//2, ay//2)
-    (bx2, by2) = (bx//2, by//2)
+    ax2, ay2 = ax//2, ay//2
+    bx2, by2 = bx//2, by//2
 
     w2 = abs(ax2 + ay2)
     h2 = abs(bx2 + by2)
 
     if 2*w > 3*h:
-        if (w2 % 2) and (w > 2):
+        if w2 % 2 and w > 2:
             # prefer even steps
-            (ax2, ay2) = (ax2 + dax, ay2 + day)
+            ax2, ay2 = ax2 + dax, ay2 + day
 
         # long case: split in two parts only
         yield from gilbert2d(x, y, ax2, ay2, bx, by)
         yield from gilbert2d(x+ax2, y+ay2, ax-ax2, ay-ay2, bx, by)
 
     else:
-        if (h2 % 2) and (h > 2):
+        if h2 % 2 and h > 2:
             # prefer even steps
-            (bx2, by2) = (bx2 + dbx, by2 + dby)
+            bx2, by2 = bx2 + dbx, by2 + dby
 
         # standard case: one step up, one long horizontal, one step down
         yield from gilbert2d(x, y, bx2, by2, ax2, ay2)
@@ -71,49 +71,49 @@ def gilbert3d(x, y, z,
     h = abs(bx + by + bz)
     d = abs(cx + cy + cz)
 
-    (dax, day, daz) = (_sgn(ax), _sgn(ay), _sgn(az)) # unit major direction ("right")
-    (dbx, dby, dbz) = (_sgn(bx), _sgn(by), _sgn(bz)) # unit ortho direction ("forward")
-    (dcx, dcy, dcz) = (_sgn(cx), _sgn(cy), _sgn(cz)) # unit ortho direction ("up")
+    dax, day, daz = _sgn(ax), _sgn(ay), _sgn(az) # unit major direction ("right")
+    dbx, dby, dbz = _sgn(bx), _sgn(by), _sgn(bz) # unit ortho direction ("forward")
+    dcx, dcy, dcz = _sgn(cx), _sgn(cy), _sgn(cz) # unit ortho direction ("up")
 
     # trivial row/column fills
     if h == 1 and d == 1:
         for i in range(0, w):
             yield x, y, z
-            (x, y, z) = (x + dax, y + day, z + daz)
+            x, y, z = x + dax, y + day, z + daz
         return
 
     if w == 1 and d == 1:
         for i in range(0, h):
             yield x, y, z
-            (x, y, z) = (x + dbx, y + dby, z + dbz)
+            x, y, z = x + dbx, y + dby, z + dbz
         return
 
     if w == 1 and h == 1:
         for i in range(0, d):
             yield x, y, z
-            (x, y, z) = (x + dcx, y + dcy, z + dcz)
+            x, y, z = x + dcx, y + dcy, z + dcz
         return
 
-    (ax2, ay2, az2) = (ax//2, ay//2, az//2)
-    (bx2, by2, bz2) = (bx//2, by//2, bz//2)
-    (cx2, cy2, cz2) = (cx//2, cy//2, cz//2)
+    ax2, ay2, az2 = ax//2, ay//2, az//2
+    bx2, by2, bz2 = bx//2, by//2, bz//2
+    cx2, cy2, cz2 = cx//2, cy//2, cz//2
 
     w2 = abs(ax2 + ay2 + az2)
     h2 = abs(bx2 + by2 + bz2)
     d2 = abs(cx2 + cy2 + cz2)
 
     # prefer even steps
-    if (w2 % 2) and (w > 2):
-       (ax2, ay2, az2) = (ax2 + dax, ay2 + day, az2 + daz)
+    if w2 % 2 and w > 2:
+        ax2, ay2, az2 = ax2 + dax, ay2 + day, az2 + daz
 
-    if (h2 % 2) and (h > 2):
-       (bx2, by2, bz2) = (bx2 + dbx, by2 + dby, bz2 + dbz)
+    if h2 % 2 and h > 2:
+        bx2, by2, bz2 = bx2 + dbx, by2 + dby, bz2 + dbz
 
-    if (d2 % 2) and (d > 2):
-       (cx2, cy2, cz2) = (cx2 + dcx, cy2 + dcy, cz2 + dcz)
+    if d2 % 2 and d > 2:
+        cx2, cy2, cz2 = cx2 + dcx, cy2 + dcy, cz2 + dcz
 
     # wide case, split in w only
-    if (2*w > 3*h) and (2*w > 3*d):
+    if 2*w > 3*h and 2*w > 3*d:
         yield from gilbert3d(x, y, z,
                              ax2, ay2, az2,
                              bx, by, bz,
