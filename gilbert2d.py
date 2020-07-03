@@ -32,8 +32,8 @@ def gilbert2d(x, y, ax, ay, bx, by):
             (x, y) = (x + dbx, y + dby)
         return
 
-    (ax2, ay2) = (ax/2, ay/2)
-    (bx2, by2) = (bx/2, by/2)
+    (ax2, ay2) = (ax//2, ay//2)
+    (bx2, by2) = (bx//2, by//2)
 
     w2 = abs(ax2 + ay2)
     h2 = abs(bx2 + by2)

@@ -42,9 +42,9 @@ def gilbert3d(x, y, z,
             (x, y, z) = (x + dcx, y + dcy, z + dcz)
         return
 
-    (ax2, ay2, az2) = (ax/2, ay/2, az/2)
-    (bx2, by2, bz2) = (bx/2, by/2, bz/2)
-    (cx2, cy2, cz2) = (cx/2, cy/2, cz/2)
+    (ax2, ay2, az2) = (ax//2, ay//2, az//2)
+    (bx2, by2, bz2) = (bx//2, by//2, bz//2)
+    (cx2, cy2, cz2) = (cx//2, cy//2, cz//2)
 
     w2 = abs(ax2 + ay2 + az2)
     h2 = abs(bx2 + by2 + bz2)
