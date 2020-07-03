@@ -2,7 +2,7 @@
 
 import sys
 
-def sgn(x):
+def _sgn(x):
     return (x > 0) - (x < 0)
 
 def gilbert2d(x, y, ax, ay, bx, by):
@@ -14,8 +14,8 @@ def gilbert2d(x, y, ax, ay, bx, by):
     w = abs(ax + ay)
     h = abs(bx + by)
 
-    (dax, day) = (sgn(ax), sgn(ay)) # unit major direction
-    (dbx, dby) = (sgn(bx), sgn(by)) # unit orthogonal direction
+    (dax, day) = (_sgn(ax), _sgn(ay)) # unit major direction
+    (dbx, dby) = (_sgn(bx), _sgn(by)) # unit orthogonal direction
 
     if h == 1:
         # trivial row fill
@@ -71,9 +71,9 @@ def gilbert3d(x, y, z,
     h = abs(bx + by + bz)
     d = abs(cx + cy + cz)
 
-    (dax, day, daz) = (sgn(ax), sgn(ay), sgn(az)) # unit major direction ("right")
-    (dbx, dby, dbz) = (sgn(bx), sgn(by), sgn(bz)) # unit ortho direction ("forward")
-    (dcx, dcy, dcz) = (sgn(cx), sgn(cy), sgn(cz)) # unit ortho direction ("up")
+    (dax, day, daz) = (_sgn(ax), _sgn(ay), _sgn(az)) # unit major direction ("right")
+    (dbx, dby, dbz) = (_sgn(bx), _sgn(by), _sgn(bz)) # unit ortho direction ("forward")
+    (dcx, dcy, dcz) = (_sgn(cx), _sgn(cy), _sgn(cz)) # unit ortho direction ("up")
 
     # trivial row/column fills
     if h == 1 and d == 1:
